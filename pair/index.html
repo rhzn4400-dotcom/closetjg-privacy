@@ -1,0 +1,77 @@
+<!doctype html>
+<!--
+  ClosetJG PC 연결 안내. PC 앱의 QR 을 폰 "기본 카메라" 로 찍으면 이 페이지가 열린다.
+
+  · 앱이 깔려 있으면 "앱에서 열기" 가 앱을 열고, 앱이 "이 PC 와 연결할까요?" 를 묻는다.
+  · 없으면 같은 단추가 플레이스토어로 넘어간다(크롬 intent 의 browser_fallback_url).
+
+  연결 정보는 주소의 # 뒤에 있다. # 뒷부분은 브라우저가 서버로 보내지 않으므로 GitHub 에는
+  이 페이지를 연 기록만 남고 열쇠는 안 남는다. 이 페이지도 어디로 보내지 않는다 — 분석 도구 ·
+  외부 스크립트를 붙이지 말 것(개인정보처리방침이 거짓말이 된다).
+
+  이 파일은 손으로 쓴 것이다(방침 페이지와 달리 빌드가 만들지 않는다). tools/publish-privacy.sh 가
+  공개 저장소의 pair/index.html 로 올린다.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ClosetJG — PC 연결</title>
+<style>
+  :root { --ink: #141B33; --cream: #F6EFE4; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Noto Sans KR", sans-serif;
+         background: var(--ink); color: var(--cream); min-height: 100vh;
+         display: flex; align-items: center; justify-content: center; }
+  main { max-width: 420px; padding: 32px 24px; text-align: center; }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  p { line-height: 1.6; opacity: .85; margin: 8px 0; }
+  a.button { display: block; margin: 20px 0 10px; padding: 14px; border-radius: 12px;
+             background: var(--cream); color: var(--ink); font-weight: 700; text-decoration: none; }
+  a.sub { color: var(--cream); opacity: .8; }
+  .note { font-size: 13px; opacity: .6; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ClosetJG PC 와 연결</h1>
+  <p id="lead">PC 의 옷장과 이 폰을 연결합니다.</p>
+
+  <a id="open" class="button" href="#">ClosetJG 앱에서 열기</a>
+  <a id="store" class="sub" href="https://play.google.com/store/apps/details?id=com.closetjg.app">앱이 없으면 플레이스토어에서 받기</a>
+
+  <p class="note" id="note">
+    QR 은 PC 에서 10 분 동안만 쓸 수 있습니다. 앱을 새로 설치했다면 PC 의 '새 QR 만들기' 를 누른 뒤,
+    앱의 설정 › PC 연결 › PC 와 연결하기로 찍어 주세요.
+  </p>
+</main>
+<script>
+  (function () {
+    var store = "https://play.google.com/store/apps/details?id=com.closetjg.app";
+    var payload = location.hash.replace(/^#/, "");
+    var android = /Android/i.test(navigator.userAgent);
+    var open = document.getElementById("open");
+
+    if (!android) {
+      // 아이폰 · PC 에서 찍었다. 앱이 안드로이드에만 있다
+      document.getElementById("lead").textContent =
+        "ClosetJG 는 안드로이드 앱입니다. 안드로이드 폰의 카메라로 PC 화면의 QR 을 찍어 주세요.";
+      open.style.display = "none";
+      return;
+    }
+
+    if (!payload) {
+      open.href = store;
+      open.textContent = "플레이스토어에서 ClosetJG 받기";
+      return;
+    }
+
+    // 앱이 있으면 앱이 받고(closetjg://pair?d=…), 없으면 크롬이 fallback 으로 플레이스토어를 연다.
+    // 연결 정보는 fallback 주소에 싣지 않는다 — 플레이스토어로 갈 까닭이 없다
+    open.href = "intent://pair?d=" + encodeURIComponent(payload)
+      + "#Intent;scheme=closetjg;package=com.closetjg.app;"
+      + "S.browser_fallback_url=" + encodeURIComponent(store) + ";end";
+  })();
+</script>
+</body>
+</html>
