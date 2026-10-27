@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  ClosetJG PC 연결 안내. PC 앱의 QR 을 폰 "기본 카메라" 로 찍으면 이 페이지가 열린다.
+  옷깃 PC 연결 안내. PC 앱의 QR 을 폰 "기본 카메라" 로 찍으면 이 페이지가 열린다.
 
   · 앱이 깔려 있으면 "앱에서 열기" 가 앱을 열고, 앱이 "이 PC 와 연결할까요?" 를 묻는다.
   · 없으면 같은 단추가 플레이스토어로 넘어간다(크롬 intent 의 browser_fallback_url).
@@ -17,7 +17,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>ClosetJG — PC 연결</title>
+<title>옷깃 — PC 연결</title>
 <style>
   :root { --ink: #141B33; --cream: #F6EFE4; }
   body { margin: 0; font-family: system-ui, -apple-system, "Noto Sans KR", sans-serif;
@@ -34,10 +34,10 @@
 </head>
 <body>
 <main>
-  <h1>ClosetJG PC 와 연결</h1>
+  <h1>옷깃 PC 와 연결</h1>
   <p id="lead">PC 의 옷장과 이 폰을 연결합니다.</p>
 
-  <a id="open" class="button" href="#">ClosetJG 앱에서 열기</a>
+  <a id="open" class="button" href="#">옷깃 앱에서 열기</a>
   <a id="store" class="sub" href="https://play.google.com/store/apps/details?id=com.closetjg.app">앱이 없으면 플레이스토어에서 받기</a>
 
   <p class="note" id="note">
@@ -55,14 +55,14 @@
     if (!android) {
       // 아이폰 · PC 에서 찍었다. 앱이 안드로이드에만 있다
       document.getElementById("lead").textContent =
-        "ClosetJG 는 안드로이드 앱입니다. 안드로이드 폰의 카메라로 PC 화면의 QR 을 찍어 주세요.";
+        "옷깃 는 안드로이드 앱입니다. 안드로이드 폰의 카메라로 PC 화면의 QR 을 찍어 주세요.";
       open.style.display = "none";
       return;
     }
 
     if (!payload) {
       open.href = store;
-      open.textContent = "플레이스토어에서 ClosetJG 받기";
+      open.textContent = "플레이스토어에서 옷깃 받기";
       return;
     }
 
